@@ -14,8 +14,13 @@ jobs:
       - uses: gradle/actions/setup-gradle@v4
         with:
           gradle-version: current
-      - run: gradle build
+      - name: Build
+        run: |
+          DIR=$(dirname "$(find . -name settings.gradle | head -1)")
+          echo "Project dir: $DIR"
+          cd "$DIR"
+          gradle build
       - uses: actions/upload-artifact@v4
         with:
           name: blockeditems-jar
-          path: build/libs/blockeditems-1.0.0.jar
+          path: "**/build/libs/blockeditems-1.0.0.jar"
